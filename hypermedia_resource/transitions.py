@@ -57,15 +57,7 @@ class BaseTransitionItem(Semantics):
             return InputCollection()
         return AttributeCollection()
 
-
-class TransitionItem(BaseTransitionItem):
-
-    def __init__(self, *args, *kwargs):
-        super(TransitionItem, self).__init__(*args, **kwargs)
-        self.meta = MetaItem()
-        self.params = InputCollection()
-
-class TransitionResource(BaseTransitionItem, HypermediaResource):
+class TransitionItem(BaseTransitionItem, HypermediaResource):
 
     def __init__(self, relation_type, uri, method='GET', **kwargs):
         HypermediaResource.__init__(self, **kwargs)

@@ -1,4 +1,4 @@
-from transitions import TransitionResource
+from transitions import TransitionItem
 
 class EmbeddedResourceCollection(TransitionTypeCollection):
 
@@ -6,5 +6,5 @@ class EmbeddedResourceCollection(TransitionTypeCollection):
         self.item = EmbeddedResourceItem
         self.resource = resource
 
-class EmbeddedResourceItem(TransitionResource):
+class EmbeddedResourceItem(TransitionItem):
     pass

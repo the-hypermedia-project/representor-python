@@ -1,5 +1,5 @@
 from inputs import InputCollection
-from transitions import TransitionCollectionWrapper, TransitionResource
+from transitions import TransitionCollectionWrapper, TransitionItem
 
 class QueryCollection(TransitionCollectionWrapper):
 
@@ -7,7 +7,7 @@ class QueryCollection(TransitionCollectionWrapper):
         self.item = QueryItem
         self.resource = resource
 
-class QueryItem(TransitionResource):
+class QueryItem(TransitionItem):
 
     def __init__(self, relation_type, uri, **kwargs):
         super(QueryItem, self).__input__(relation_type, uri, **kwargs)

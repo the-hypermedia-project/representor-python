@@ -1,5 +1,5 @@
 from base import BaseHypermediaResource
-from transitions import TransitionCollectionWrapper, TransitionResource
+from transitions import TransitionCollectionWrapper, TransitionItem
 
 class LinkCollection(TransitionCollectionWrapper):
 
@@ -7,6 +7,6 @@ class LinkCollection(TransitionCollectionWrapper):
         self.item = LinkItem
         self.resource = resource
 
-class LinkItem(TransitionResource):
+class LinkItem(TransitionItem):
     pass
 
