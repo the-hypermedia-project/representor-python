@@ -21,14 +21,14 @@ class HypermediaResource(Semantics):
         self.actions = ActionCollection(self)
         self.embedded_resources = EmbeddedResourceCollection(self)
 
-        def to_dict(self):
-            return {
-                'meta': self.meta.to_dict(),
-                'attributes': self.attributes.to_array(),
-                'transitions': self.transitions.to_array(),
-                'label': self.label,
-                'types_of': self.types_of.to_array()
-            }
+    def to_dict(self):
+        return {
+            'meta': self.meta.to_dict(),
+            'attributes': self.attributes.to_array(),
+            'transitions': self.transitions.to_array(),
+            'label': self.label,
+            'types_of': self.types_of.to_array()
+        }
 
 class Collection:
 
