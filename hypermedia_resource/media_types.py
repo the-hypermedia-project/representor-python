@@ -1,4 +1,4 @@
-from base import Collection
+from dom import Collection
 
 class MediaTypeCollection(Collection):
 

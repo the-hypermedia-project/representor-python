@@ -1,3 +1,5 @@
+from dom import Collection
+
 class Semantics:
 
     def __init__(self, **kwargs):

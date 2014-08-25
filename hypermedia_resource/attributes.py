@@ -1,4 +1,4 @@
-from base import Collection
+from dom import Collection
 from semantics import Semantics
 
 class AttributeCollection(Collection):
