@@ -43,8 +43,8 @@ class BaseTransitionItem(Semantics):
     @property
     def mutable(self):
         if self.method == 'GET':
-            return True
-        return False
+            return False
+        return True
 
     @property
     def transclude(self):
