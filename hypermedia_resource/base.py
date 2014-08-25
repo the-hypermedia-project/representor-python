@@ -5,7 +5,7 @@ from media_types import MediaTypeCollection
 from semantics import Semantics
 from utils import filter_by_type
 
-class TranslatorMixin:
+class TranslatiorMixin:
 
     _adapters = {}
 

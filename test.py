@@ -1,6 +1,6 @@
 import unittest
 
-from hypermedia_resource.base import Collection
+from hypermedia_resource.dom import Collection
 
 class StubItem:
     pass
