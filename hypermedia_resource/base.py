@@ -22,7 +22,7 @@ class TranslatiorMixin:
         adapter = self.adapters[media_type]()
         return adapter.build(self)
 
-class HypermediaResource(Semantics):
+class HypermediaResource(Semantics, TranslatiorMixin):
 
     def __init__(self, *args, **kwargs):
         super(HypermediaResource, self).__init__(**kwargs)
