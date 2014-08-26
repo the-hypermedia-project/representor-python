@@ -26,7 +26,7 @@ class HypermediaResource(Semantics):
 
     def __init__(self, *args, **kwargs):
         super(HypermediaResource, self).__init__(**kwargs)
-        self.meta = MetaItem()
+        self.meta = MetaItem(self)
         self.attributes = AttributeCollection()
         self.transitions = TransitionCollection()
 
@@ -36,36 +36,29 @@ class HypermediaResource(Semantics):
         self.actions = ActionCollection(self)
         self.embedded_resources = EmbeddedResourceCollection(self)
 
-    def to_dict(self):
-        return {
-            'meta': self.meta.to_dict(),
-            'attributes': self.attributes.to_array(),
-            'links': self.links.to_array(),
-            'queries': self.queries.to_array(),
-            'actions': self.links.to_array(),
-            'embedded_resources': self.embedded_resources.to_array(),
-            'label': self.label,
-            'types_of': self.types_of.to_array()
-        }
-
 class TransitionCollection(Collection):
 
-    def add(self, relation_type, uri, method='GET', **kwargs):
-        trasition = TransitionItem(relation_type, method, **kwargs)
-        self.add_item(trasition)
-        return trasition
+    def __init__(self):
+        super(TransitionCollection, self).__init__()
+        self.item = TransitionItem
+
+    def filter_by_rel(self, rel):
+        return [item for item in self._items if item.rel == rel]
+
+    def get(self, rel):
+        items = self.filter_by_rel(rel)
+        return items[0]
 
 class BaseTransitionItem(Semantics):
 
-    def __init__(self, relation_type, uri, method='GET', **kwargs):
+    def __init__(self, rel, href, method='GET', **kwargs):
         super(BaseTransitionItem, self).__init__()
-        self.relation_type = relation_type
-        self.uri = uri
+        self.rel = rel
+        self.href = href
         self.method = method
         self.embed_as = kwargs.get('embed_as', None)
         self.language = kwargs.get('language', None)
         self.response_types = MediaTypeCollection()
-        self.attributes = self.get_attributes()
 
     @property
     def safe(self):
@@ -93,39 +86,42 @@ class BaseTransitionItem(Semantics):
             return True
         return False
 
-    def get_attributes(self):
-        if self.mutable:
-            return InputCollection()
-        return AttributeCollection()
-
 class TransitionItem(BaseTransitionItem, HypermediaResource):
 
-    def __init__(self, relation_type, uri, method='GET', **kwargs):
+    def __init__(self, rel, href, method='GET', **kwargs):
         HypermediaResource.__init__(self, **kwargs)
-        BaseTransitionItem.__init__(self, relation_type, uri, method, **kwargs)
+        BaseTransitionItem.__init__(self, rel, href, method, **kwargs)
 
 class TransitionCollectionWrapper(Collection):
 
     def __init__(self, item=None, resource=None):
+        super(TransitionCollectionWrapper, self).__init__()
         self.item = item
         self.resource = resource
 
     def append(self, item):
         self.resource.transitions.append(item)
 
-    def add(self, relation_type, uri, method, **kwargs):
-        new_item = self.item(relation_type, method, **kwargs)
+    def add(self, rel, href, method='GET', **kwargs):
+        new_item = self.item(rel, href, method, **kwargs)
         self.resource.transitions.append(new_item)
         return new_item
 
     def all(self):
         return filter_by_type(self.resource.transitions.all(), self.item)
 
-class MetaItem:
+    def filter_by_rel(self, rel):
+        return [item for item in self.resource.transitions._items if item.rel == rel]
 
-    def __init__(self):
+    def get(self, rel):
+        items = self.filter_by_rel(rel)
+        return items[0]
+
+class MetaItem(object):
+
+    def __init__(self, resource):
         self.attributes = AttributeCollection()
-        self.links = LinkCollection()
+        self.links = LinkCollection(resource)
 
 class ActionCollection(TransitionCollectionWrapper):
 
@@ -135,13 +131,15 @@ class ActionCollection(TransitionCollectionWrapper):
 
 class ActionItem(BaseTransitionItem):
 
-    def __init__(self, relation_type, uri, method, **kwargs):
-        super(ActionItem, self).__init__(relation_type, uri, method **kwargs)
+    def __init__(self, rel, href, method, **kwargs):
+        super(ActionItem, self).__init__(rel, href, method **kwargs)
         self.request_types = MediaTypeCollection()
+        self.attributes = InputCollection()
 
 class LinkCollection(TransitionCollectionWrapper):
 
-    def __init__(self, resource):
+    def __init__(self, resource=None):
+        super(LinkCollection, self).__init__()
         self.item = LinkItem
         self.resource = resource
 
@@ -156,8 +154,8 @@ class QueryCollection(TransitionCollectionWrapper):
 
 class QueryItem(TransitionItem):
 
-    def __init__(self, relation_type, uri, **kwargs):
-        super(QueryItem, self).__input__(relation_type, uri, **kwargs)
+    def __init__(self, rel, href, **kwargs):
+        super(QueryItem, self).__input__(rel, href, **kwargs)
         self.params = InputCollection()
 
 class EmbeddedResourceCollection(TransitionCollectionWrapper):

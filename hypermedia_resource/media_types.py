@@ -5,7 +5,7 @@ class MediaTypeCollection(Collection):
     def __init__(self):
         self.item = MediaTypeItem
 
-class MediaTypeItem:
+class MediaTypeItem(object):
 
     def __init__(self, media_type, **kwargs):
         self.media_type = media_type
