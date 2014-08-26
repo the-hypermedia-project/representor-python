@@ -111,7 +111,7 @@ class TransitionCollectionWrapper(Collection):
         return filter_by_type(self.resource.transitions.all(), self.item)
 
     def filter_by_rel(self, rel):
-        return [item for item in self.resource.transitions._items if item.rel == rel]
+        return [item for item in self.all() if item.rel == rel]
 
     def get(self, rel):
         items = self.filter_by_rel(rel)
