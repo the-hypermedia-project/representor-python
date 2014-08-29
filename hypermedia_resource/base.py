@@ -2,10 +2,10 @@ from attributes import AttributeCollection
 from dom import Collection
 from inputs import InputCollection
 from media_types import MediaTypeCollection
-from semantics import Semantics
+from semantics import TypesOfCollection
 from utils import filter_by_type
 
-class TranslatiorMixin:
+class TranslatorMixin:
 
     _adapters = {}
 
@@ -22,10 +22,10 @@ class TranslatiorMixin:
         adapter = self.adapters[media_type]()
         return adapter.build(self)
 
-class HypermediaResource(Semantics, TranslatorMixin):
+class HypermediaResource(TranslatorMixin):
 
     def __init__(self, *args, **kwargs):
-        super(HypermediaResource, self).__init__(**kwargs)
+        self.href = kwargs.get('href', None)
         self.meta = MetaItem(self)
         self.attributes = AttributeCollection()
         self.transitions = TransitionCollection()
@@ -49,16 +49,15 @@ class TransitionCollection(Collection):
         items = self.filter_by_rel(rel)
         return items[0]
 
-class BaseTransitionItem(Semantics):
+class BaseTransitionItem(object):
 
-    def __init__(self, rel, href, method='GET', **kwargs):
-        super(BaseTransitionItem, self).__init__()
+    def __init__(self, rel, method='GET', **kwargs):
         self.rel = rel
-        self.href = href
         self.method = method
         self.embed_as = kwargs.get('embed_as', None)
         self.language = kwargs.get('language', None)
         self.response_types = MediaTypeCollection()
+        self.label = kwargs.get('label', None)
 
     @property
     def safe(self):
@@ -89,8 +88,8 @@ class BaseTransitionItem(Semantics):
 class TransitionItem(BaseTransitionItem, HypermediaResource):
 
     def __init__(self, rel, href, method='GET', **kwargs):
-        HypermediaResource.__init__(self, **kwargs)
-        BaseTransitionItem.__init__(self, rel, href, method, **kwargs)
+        HypermediaResource.__init__(self, href=href, **kwargs)
+        BaseTransitionItem.__init__(self, rel, method, **kwargs)
 
 class TransitionCollectionWrapper(Collection):
 
@@ -133,6 +132,7 @@ class ActionItem(BaseTransitionItem):
 
     def __init__(self, rel, href, method, **kwargs):
         super(ActionItem, self).__init__(rel, href, method **kwargs)
+        self.meta = MetaItem(self)
         self.request_types = MediaTypeCollection()
         self.attributes = InputCollection()
 

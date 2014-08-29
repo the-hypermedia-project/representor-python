@@ -1,5 +1,4 @@
 from dom import Collection
-from semantics import Semantics
 
 class AttributeCollection(Collection):
 
@@ -14,8 +13,9 @@ class AttributeCollection(Collection):
         items = self.filter_by_name(name)
         return items[0]
 
-class AttributeItem(Semantics):
+class AttributeItem(object):
 
     def __init__(self, name, value=None, **kwargs):
+        self.label = kwargs.get('label', None)
         self.name = name
         self.value = value

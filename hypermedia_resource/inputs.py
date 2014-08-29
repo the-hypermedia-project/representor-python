@@ -24,7 +24,7 @@ class OptionCollection(Collection):
         super(OptionCollection, self).__init__()
         self.item = OptionItem()
 
-class OptionItem:
+class OptionItem(object):
 
     def __init__(self, name, value, **kwargs):
         self.name = name
