@@ -1,19 +1,48 @@
-class Collection(object):
+class ValueCollection(object):
 
-    def __init__(self, item=None):
+    def __init__(self):
         self._items = []
-        self.item = item
+
+    def __len__(self):
+        return len(self._items)
+
+    def __iter__(self):
+        return iter(self._items)
 
     def append(self, item):
         self._items.append(item)
+
+    def add(self, *args):
+        for item in args:
+            self.append(item)
+
+    def all(self):
+        return self._items
+
+    def set_items(self, items):
+        self._items = items
+
+class Collection(ValueCollection):
+
+    def __init__(self, item=None):
+        super(Collection, self).__init__()
+        self.item = item
+
+    def set_item_type(self, item):
+        self.item = item
 
     def add(self, *args, **kwargs):
         new_item = self.item(*args, **kwargs)
         self.append(new_item)
         return new_item
 
-    def all(self):
-        return self._items
+    def filter_by(self, attr, value):
+        return [item for item in self.all() if getattr(item, attr) == value]
 
 class Item(object):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def set(self, name, value):
+        setattr(self, name, value)
