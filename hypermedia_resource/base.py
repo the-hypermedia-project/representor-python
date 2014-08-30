@@ -131,7 +131,8 @@ class ActionCollection(TransitionCollectionWrapper):
 class ActionItem(BaseTransitionItem):
 
     def __init__(self, rel, href, method, **kwargs):
-        super(ActionItem, self).__init__(rel, href, method **kwargs)
+        super(ActionItem, self).__init__(rel, method, **kwargs)
+        self.href = href
         self.meta = MetaItem(self)
         self.request_types = MediaTypeCollection()
         self.attributes = InputCollection()
@@ -154,8 +155,8 @@ class QueryCollection(TransitionCollectionWrapper):
 
 class QueryItem(TransitionItem):
 
-    def __init__(self, rel, href, **kwargs):
-        super(QueryItem, self).__input__(rel, href, **kwargs)
+    def __init__(self, rel, href, method, **kwargs):
+        super(QueryItem, self).__init__(rel, href, method, **kwargs)
         self.params = InputCollection()
 
 class EmbeddedResourceCollection(TransitionCollectionWrapper):

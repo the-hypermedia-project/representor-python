@@ -80,21 +80,41 @@ class TestHypermediaResource(unittest.TestCase):
 
     def setUp(self):
         self.resource = HypermediaResource()
-        self.attribute = self.resource.attributes.add('name', 'John')
-        self.transition = self.resource.transitions.add('self', '/customers/1')
-        self.link = self.resource.links.add('customers', '/customers')
 
     def test_attributes(self):
+        self.attribute = self.resource.attributes.add('name', 'John')
         name_attr = self.resource.attributes.get('name')
         self.assertEqual(name_attr.value, 'John')
 
     def test_transitions(self):
+        self.resource.transitions.add('self', '/customers/1')
         transition = self.resource.transitions.get('self')
         self.assertEqual(transition.href, '/customers/1')
 
     def test_links(self):
+        self.resource.links.add('customers', '/customers')
         link = self.resource.links.get('customers')
         self.assertEqual(link.href, '/customers')
+
+    def test_queries(self):
+        self.resource.queries.add('search', '/customers')
+        query = self.resource.queries.get('search')
+        self.assertEqual(query.href, '/customers')
+
+    def test_actions(self):
+        self.resource.actions.add('append', '/customers', 'POST')
+        action = self.resource.actions.get('append')
+        self.assertEqual(action.href, '/customers')
+
+    def test_meta_attributes(self):
+        self.attribute = self.resource.meta.attributes.add('name', 'John')
+        name_attr = self.resource.meta.attributes.get('name')
+        self.assertEqual(name_attr.value, 'John')
+
+    def test_meta_links(self):
+        self.resource.meta.links.add('profile', 'http://example.com/customers')
+        link = self.resource.meta.links.get('profile')
+        self.assertEqual(link.href, 'http://example.com/customers')
 
 if __name__ == '__main__':
     unittest.main()
