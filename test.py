@@ -113,8 +113,8 @@ class TestHypermediaResource(unittest.TestCase):
 
     def test_meta_links(self):
         self.resource.meta.links.add('profile', 'http://example.com/customers')
-        link = self.resource.meta.links.get('profile')
-        self.assertEqual(link.href, 'http://example.com/customers')
+        meta_link = self.resource.meta.links.get('profile')
+        self.assertEqual(meta_link.href, 'http://example.com/customers')
 
 if __name__ == '__main__':
     unittest.main()
