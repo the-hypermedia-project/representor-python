@@ -144,6 +144,9 @@ class LinkCollection(TransitionCollectionWrapper):
         self.item = LinkItem
         self.resource = resource
 
+    def add(self, rel, href, **kwargs):
+        super(LinkCollection, self).add(rel, href, 'GET', **kwargs)
+
 class LinkItem(TransitionItem):
     pass
 
@@ -152,6 +155,9 @@ class QueryCollection(TransitionCollectionWrapper):
     def __init__(self, resource):
         self.item = QueryItem
         self.resource = resource
+
+    def add(self, rel, href, **kwargs):
+        super(QueryCollection, self).add(rel, href, 'GET', **kwargs)
 
 class QueryItem(TransitionItem):
 
