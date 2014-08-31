@@ -1,6 +1,6 @@
-from dom import Collection
+from dom import ItemCollection
 
-class MediaTypeCollection(Collection):
+class MediaTypeCollection(ItemCollection):
 
     def __init__(self):
         self.item = MediaTypeItem

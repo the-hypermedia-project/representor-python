@@ -1,4 +1,4 @@
-class ValueCollection(object):
+class Collection(object):
 
     def __init__(self):
         self._items = []
@@ -22,10 +22,10 @@ class ValueCollection(object):
     def set_items(self, items):
         self._items = items
 
-class Collection(ValueCollection):
+class ItemCollection(Collection):
 
     def __init__(self, item=None):
-        super(Collection, self).__init__()
+        super(ItemCollection, self).__init__()
         self.item = item
 
     def set_item_type(self, item):

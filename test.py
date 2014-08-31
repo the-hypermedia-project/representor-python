@@ -3,7 +3,7 @@ import unittest
 from mock import Mock
 
 from hypermedia_resource import HypermediaResource
-from hypermedia_resource.dom import Collection, Item, ValueCollection
+from hypermedia_resource.dom import Collection, Item, ItemCollection
 
 class TestItem(unittest.TestCase):
 
@@ -14,10 +14,10 @@ class TestItem(unittest.TestCase):
         self.item.set('foo', 'bar')
         self.assertEqual(self.item.foo, 'bar')
 
-class TestValueCollection(unittest.TestCase):
+class TestCollection(unittest.TestCase):
 
     def setUp(self):
-        self.collection = ValueCollection()
+        self.collection = Collection()
 
     def test_init(self):
         self.assertEqual(len(self.collection), 0)
@@ -48,11 +48,11 @@ class TestValueCollection(unittest.TestCase):
         self.collection.set_items(items)
         self.assertEqual([item for item in self.collection], items)
 
-class TestCollection(unittest.TestCase):
+class TestItemCollection(unittest.TestCase):
 
     def setUp(self):
         self.item = Item
-        self.collection = Collection()
+        self.collection = ItemCollection()
 
     def test_init(self):
         self.assertEqual(len(self.collection.all()), 0)

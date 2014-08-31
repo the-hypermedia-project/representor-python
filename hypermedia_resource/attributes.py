@@ -1,6 +1,6 @@
-from dom import Collection
+from dom import ItemCollection
 
-class AttributeCollection(Collection):
+class AttributeCollection(ItemCollection):
 
     def __init__(self):
         super(AttributeCollection, self).__init__()

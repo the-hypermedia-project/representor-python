@@ -1,7 +1,7 @@
 from attributes import AttributeItem
-from dom import Collection
+from dom import ItemCollection
 
-class InputCollection(Collection):
+class InputCollection(ItemCollection):
 
     def __init__(self):
         self.item = InputItem
@@ -18,7 +18,7 @@ class InputItem(AttributeItem):
     def changed(self):
         return self.value == self._current_value
 
-class OptionCollection(Collection):
+class OptionCollection(ItemCollection):
 
     def __init__(self):
         super(OptionCollection, self).__init__()
