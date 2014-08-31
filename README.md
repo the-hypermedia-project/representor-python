@@ -3,6 +3,12 @@ Hypermedia Resource - Python
 
 This library provides a generic interface for hypermedia messages. It is currently in active development and is not recommended for production use. 
 
+## Installing
+
+```
+python setup.py install
+```
+
 ## Usage
 
 ```python
