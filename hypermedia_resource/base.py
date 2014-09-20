@@ -57,6 +57,7 @@ class BaseTransitionItem(object):
     def __init__(self, rel, method='GET', **kwargs):
         self.rel = rel
         self.method = method
+        self.hreflang = kwargs.get('embed_as', None)
         self.embed_as = kwargs.get('embed_as', None)
         self.language = kwargs.get('language', None)
         self.response_types = MediaTypeCollection()
@@ -118,6 +119,9 @@ class TransitionCollectionWrapper(ItemCollection):
     def get(self, rel):
         items = self.filter_by_rel(rel)
         return items[0]
+
+    def get_rels(self):
+        return [item.rel for item in self.all()]
 
 class MetaItem(object):
 
