@@ -1,8 +1,6 @@
 import unittest
 import json
 
-from mock import Mock
-
 from hypermedia_resource import HypermediaResource
 from hypermedia_resource.adapters.hal_json import HalJSONAdapter
 
@@ -132,7 +130,3 @@ class TestParse(unittest.TestCase):
 
     def test_templated(self):
         pass
-
-
-
-
