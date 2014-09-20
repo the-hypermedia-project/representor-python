@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import hypermedia_resource
 
-setup(name='HypermediaResource',
+setup(name='hypermedia_resource',
     version=hypermedia_resource.__version__,
     description='Generic interface for hypermedia messages',
     author='Stephen Mizell',
