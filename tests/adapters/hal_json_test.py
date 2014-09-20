@@ -55,8 +55,11 @@ class TestClass(unittest.TestCase):
 class TestBuild(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.register(HalJSONAdapter)
+        HypermediaResource.adapters.add(HalJSONAdapter)
         self.resource = HypermediaResource()
+
+    def tearDown(self):
+        HypermediaResource.reset_adapters()
 
     def test_properties(self):
         self.resource.attributes.add("foo", "bar")
@@ -96,9 +99,12 @@ class TestBuild(unittest.TestCase):
 class TestParse(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.register(HalJSONAdapter)
-        self.resource = HypermediaResource.translate_from("application/hal+json",
-                                                          hal_example)
+        HypermediaResource.adapters.add(HalJSONAdapter)
+        self.resource = HypermediaResource.adapters.translate_from("application/hal+json",
+                                                                   hal_example)
+
+    def tearDown(self):
+        HypermediaResource.reset_adapters()
 
     def test_attributes(self):
         attr = self.resource.attributes.get("shippedToday")

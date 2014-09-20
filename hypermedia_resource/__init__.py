@@ -4,3 +4,7 @@ __author__ = 'Stephen Mizell'
 __license__ = 'MIT'
 
 from base import HypermediaResource
+import adapters
+
+HypermediaResource.adapters.add(adapters.HalJSONAdapter)
+HypermediaResource.adapters.add(adapters.MazeXMLAdapter)

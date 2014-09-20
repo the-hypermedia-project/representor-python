@@ -3,24 +3,23 @@ from dom import Collection, ItemCollection
 from inputs import InputCollection
 from media_types import MediaTypeCollection
 from semantics import TypesOfCollection
+from translator import Translator
 from utils import filter_by_type
 
-class TranslatorMixin:
+class TranslatorMixin(object):
 
-    _adapters = {}
+    adapters = Translator()
 
-    @classmethod
-    def register(self, adapter):
-        self._adapters[adapter.media_type] = adapter
+    def translate_to(self, media_type):
+        return self.adapters.translate_to(media_type, self)
 
     @classmethod
     def translate_from(self, media_type, raw_representation):
-        adapter = self._adapters[media_type]
-        return adapter.parse(raw_representation)
+        return self.adapters.translate_from(media_type, raw_representation)
 
-    def translate_to(self, media_type):
-        adapter = self._adapters[media_type]
-        return adapter.build(self)
+    @classmethod
+    def reset_adapters(self):
+        HypermediaResource.adapters = Translator()
 
 class HypermediaResource(TranslatorMixin):
 

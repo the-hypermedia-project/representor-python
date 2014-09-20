@@ -22,9 +22,12 @@ class TestClass(unittest.TestCase):
 class TestParse(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.register(MazeXMLAdapter)
-        self.resource = HypermediaResource.translate_from("application/vnd.amundsen.maze+xml",
-                                                          cell_xml)
+        HypermediaResource.adapters.add(MazeXMLAdapter)
+        self.resource = HypermediaResource.adapters.translate_from("application/vnd.amundsen.maze+xml",
+                                                                    cell_xml)
+
+    def tearDown(self):
+        HypermediaResource.reset_adapters()
 
     def test_parse_links(self):
         links = self.resource.links.all()
@@ -37,12 +40,15 @@ class TestParse(unittest.TestCase):
 class TestBuild(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.register(MazeXMLAdapter)
+        HypermediaResource.adapters.add(MazeXMLAdapter)
         self.resource = HypermediaResource()
         self.resource.meta.attributes.add("type", "cell")
         self.resource.links.add("current", "http://example.com/cell/2")
         self.resource.links.add("east", "http://example.com/cell/3")
         self.raw_xml = self.resource.translate_to("application/vnd.amundsen.maze+xml")
+
+    def tearDown(self):
+        HypermediaResource.reset_adapters()
 
     def test_build(self):
         root = ET.fromstring(self.raw_xml)
