@@ -16,6 +16,6 @@ class AttributeCollection(ItemCollection):
 class AttributeItem(object):
 
     def __init__(self, name, value=None, **kwargs):
-        self.label = kwargs.get('label', None)
+        self.label = kwargs.get("label", None)
         self.name = name
         self.value = value

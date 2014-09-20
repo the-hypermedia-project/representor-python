@@ -65,9 +65,9 @@ class TestBuild(unittest.TestCase):
         self.assertEqual(hal_rep["foo"], "bar")
 
     def test_links(self):
-        self.resource.links.add('self', '/customers/1')
-        self.resource.links.add('order', '/customers/1/orders/4')
-        self.resource.links.add('order', '/customers/1/orders/5')
+        self.resource.links.add("self", "/customers/1")
+        self.resource.links.add("order", "/customers/1/orders/4")
+        self.resource.links.add("order", "/customers/1/orders/5")
         json_hal_rep = self.resource.translate_to("application/hal+json")
         hal_rep = json.loads(json_hal_rep)
         self.assertTrue("_links" in hal_rep)

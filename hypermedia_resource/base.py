@@ -1,5 +1,5 @@
 from attributes import AttributeCollection
-from dom import ItemCollection
+from dom import Collection, ItemCollection
 from inputs import InputCollection
 from media_types import MediaTypeCollection
 from semantics import TypesOfCollection
@@ -36,7 +36,7 @@ class HypermediaResource(TranslatorMixin):
         self.actions = ActionCollection(self)
         self.embedded_resources = EmbeddedResourceCollection(self)
 
-class TransitionCollection(ItemCollection):
+class TransitionCollection(Collection):
 
     def __init__(self):
         super(TransitionCollection, self).__init__()
@@ -107,7 +107,7 @@ class TransitionCollectionWrapper(ItemCollection):
 
     def add(self, rel, href, method='GET', **kwargs):
         new_item = self.item(rel, href, method, **kwargs)
-        self.resource.transitions.append(new_item)
+        self.resource.transitions.add(new_item)
         return new_item
 
     def all(self):

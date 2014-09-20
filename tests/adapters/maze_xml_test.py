@@ -47,6 +47,6 @@ class TestBuild(unittest.TestCase):
     def test_build(self):
         root = ET.fromstring(self.raw_xml)
         self.assertEqual(root[0].tag, "cell")
-        self.assertEqual(len(root[0].findall('link')), 2)
+        self.assertEqual(len(root[0].findall("link")), 2)
 
 
