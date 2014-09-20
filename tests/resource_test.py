@@ -76,10 +76,43 @@ class TestItemCollection(unittest.TestCase):
         self.collection.set_items([item1, item2, item3])
         self.assertEqual(len(self.collection.filter_by('var1', 'value1')), 2)
 
+class TestTranslator(unittest.TestCase):
+
+    def setUp(self):
+        # Reset class variable
+        HypermediaResource._adapters = {}
+        self.adapter = Mock()
+        self.adapter.media_type = "application/hal+json"
+        self.adapter.parse.return_value = "parsed"
+        self.adapter.build.return_value = "built"
+
+    def test_register(self):
+        HypermediaResource.register(self.adapter)
+        self.assertEqual(len(HypermediaResource._adapters.items()), 1)
+
+    def test_translate_from(self):
+        HypermediaResource.register(self.adapter)
+        resource = HypermediaResource.translate_from("application/hal+json",
+                                                     { "foo": "bar" })
+        self.assertEqual(resource, "parsed")
+        self.adapter.parse.assert_called_with({ "foo": "bar" })
+
+    def test_translate_to(self):
+        HypermediaResource.register(self.adapter)
+        resource = HypermediaResource()
+        rep = resource.translate_to("application/hal+json")
+        self.assertEqual(rep, "built")
+        self.adapter.build.assert_called_with(resource)
+
 class TestHypermediaResource(unittest.TestCase):
 
     def setUp(self):
         self.resource = HypermediaResource()
+
+    def test_translate_from(self):
+        adapter = Mock()
+        adapter.media_type = "application/hal+json"
+        adapter.parse
 
     def test_attributes(self):
         self.attribute = self.resource.attributes.add('name', 'John')
@@ -116,5 +149,14 @@ class TestHypermediaResource(unittest.TestCase):
         meta_link = self.resource.meta.links.get('profile')
         self.assertEqual(meta_link.href, 'http://example.com/customers')
 
-if __name__ == '__main__':
-    unittest.main()
+class TestTransitionCollection(unittest.TestCase):
+
+    def setUp(self):
+        self.resource = HypermediaResource()
+
+    def test_get_rels(self):
+        self.resource.transitions.add('self', '/customers/1')
+        self.resource.transitions.add('orders', '/customers/1/orders')
+        self.resource.transitions.add('addresses', '/customers/1/addresses')
+        rels = self.resource.transitions.get_rels()
+        self.assertEqual(rels, ["self", "orders", "addresses"])

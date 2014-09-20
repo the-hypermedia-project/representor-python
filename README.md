@@ -35,3 +35,9 @@ profile_link = resource.meta.links.get_by_rel('profile')
 ```
 
 More to come as this API is developed.
+
+## Running Tests
+
+```script
+python setup.py test
+```

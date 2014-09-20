@@ -15,11 +15,11 @@ class TranslatorMixin:
 
     @classmethod
     def translate_from(self, media_type, raw_representation):
-        adapter = self.adapters[media_type](adapters=self.adapters)
+        adapter = self._adapters[media_type]
         return adapter.parse(raw_representation)
 
     def translate_to(self, media_type):
-        adapter = self.adapters[media_type]()
+        adapter = self._adapters[media_type]
         return adapter.build(self)
 
 class HypermediaResource(TranslatorMixin):
@@ -43,11 +43,14 @@ class TransitionCollection(ItemCollection):
         self.item = TransitionItem
 
     def filter_by_rel(self, rel):
-        return [item for item in self._items if item.rel == rel]
+        return [item for item in self.all() if item.rel == rel]
 
     def get(self, rel):
         items = self.filter_by_rel(rel)
         return items[0]
+
+    def get_rels(self):
+        return [item.rel for item in self.all()]
 
 class BaseTransitionItem(object):
 
