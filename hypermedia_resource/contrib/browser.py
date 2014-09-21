@@ -3,7 +3,7 @@ try:
 except:
     pass
 
-resource_template = """
+resource_template = """<!doctype html>
 <html>
     <head>
         {% if resource.meta.attributes.has("title") %}
@@ -31,9 +31,9 @@ resource_template = """
                     {% endif %}
                     </li>
                 {% endfor %}
-            </div>
+            </ul>
         </div>
-    </body
+    </body>
 </html>
 """
 
