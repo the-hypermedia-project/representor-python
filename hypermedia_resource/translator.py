@@ -1,4 +1,4 @@
-from dom import Collection
+from .dom import Collection
 
 class Translator(Collection):
 

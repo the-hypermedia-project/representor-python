@@ -1,4 +1,4 @@
-from dom import ItemCollection
+from .dom import ItemCollection
 
 class AttributeCollection(ItemCollection):
 

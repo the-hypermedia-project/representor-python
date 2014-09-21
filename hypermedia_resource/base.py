@@ -1,9 +1,9 @@
-from attributes import AttributeCollection
-from dom import Collection, ItemCollection
-from inputs import InputCollection
-from media_types import MediaTypeCollection
-from translator import Translator
-from utils import filter_by_type
+from .attributes import AttributeCollection
+from .dom import Collection, ItemCollection
+from .inputs import InputCollection
+from .media_types import MediaTypeCollection
+from .translator import Translator
+from .utils import filter_by_type
 
 class TranslatorMixin(object):
 

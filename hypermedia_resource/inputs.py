@@ -1,5 +1,5 @@
-from attributes import AttributeItem
-from dom import ItemCollection
+from .attributes import AttributeItem
+from .dom import ItemCollection
 
 class InputCollection(ItemCollection):
 

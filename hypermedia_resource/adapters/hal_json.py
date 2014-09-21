@@ -1,5 +1,5 @@
 import json
-from hypermedia_resource import HypermediaResource
+from hypermedia_resource.base import HypermediaResource
 
 RESERVED_ATTRIBUTES = ["_links", "_embedded"]
 
