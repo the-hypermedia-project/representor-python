@@ -41,6 +41,8 @@ class TestHypermediaResource(unittest.TestCase):
         self.attribute = self.resource.attributes.add("name", "John")
         name_attr = self.resource.attributes.get("name")
         self.assertEqual(name_attr.value, "John")
+        self.assertTrue(self.resource.attributes.has("name"))
+        self.assertFalse(self.resource.attributes.has("missing"))
 
     def test_transitions(self):
         # This creates a link and also adds it to transitions

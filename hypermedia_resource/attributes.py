@@ -13,6 +13,9 @@ class AttributeCollection(ItemCollection):
         items = self.filter_by_name(name)
         return items[0]
 
+    def has(self, name):
+        return len(self.filter_by_name(name)) > 0
+
 class AttributeItem(object):
 
     def __init__(self, name, value=None, **kwargs):
