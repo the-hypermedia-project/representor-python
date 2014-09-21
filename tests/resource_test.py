@@ -86,3 +86,8 @@ class TestTransitionCollection(unittest.TestCase):
         self.resource.links.add("addresses", "/customers/1/addresses")
         rels = self.resource.transitions.get_rels()
         self.assertEqual(rels, ["self", "orders", "addresses"])
+
+    def test_has_rel(self):
+        self.resource.links.add("self", "/customers/1")
+        self.assertTrue(self.resource.links.has_rel("self"))
+        self.assertFalse(self.resource.links.has_rel("missing"))

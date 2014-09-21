@@ -121,6 +121,9 @@ class TransitionCollectionWrapper(ItemCollection):
     def get_rels(self):
         return [item.rel for item in self.all()]
 
+    def has_rel(self, rel):
+        return rel in self.get_rels()
+
 class MetaItem(object):
 
     def __init__(self, resource):
