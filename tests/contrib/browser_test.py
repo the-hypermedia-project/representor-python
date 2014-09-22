@@ -51,7 +51,8 @@ class BrowserTest(unittest.TestCase):
         query.params.add("search_key")
         query.params.add("another", "value-given")
         html = self.resource.translate_to("text/html")
-        self.assertTrue('<form method="GET" action="/search">' in html)
-        self.assertTrue('<input type="text" name="search_key" />' in html)
+        self.assertTrue('<form method="GET" action="/search"' in html)
+        self.assertTrue('<input type="text" name="search_key"' in html)
+        self.assertTrue('<input type="text" name="another" value="value-given"' in html)
 
 

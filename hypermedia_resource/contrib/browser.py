@@ -58,13 +58,16 @@ resource_template = """
 {% endmacro %}
 
 {% macro form(method, action, params) %}
-    <form method="{{ method }}" action="{{ action }}">
+    <form method="{{ method }}" action="{{ action }}" class="form">
         {% for param in params %}
-            {% if param.value %}
-                <input type="text" name="{{ param.name }}" value="{{ param.value }}" />
-            {% else %}
-                <input type="text" name="{{ param.name }}" />
-            {% endif %}
+            <div class="form-group">
+                <label>{{ param.name }}</label>
+                {% if param.value %}
+                    <input type="text" name="{{ param.name }}" value="{{ param.value }}" class="form-control" />
+                {% else %}
+                    <input type="text" name="{{ param.name }}" class="form-control" />
+                {% endif %}
+            </div>
         {% endfor %}
     </form>
 {% endmacro %}
@@ -78,9 +81,12 @@ resource_template = """
             <title>Hypermedia Browser</title>
         {% endif %}
         <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+        .main { max-width: 800px; }
+        </style>
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid main">
             {{ resource_markup(resource) }}
         </div>
     </body>
