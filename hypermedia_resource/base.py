@@ -153,7 +153,7 @@ class LinkCollection(TransitionCollectionWrapper):
         self.resource = resource
 
     def add(self, rel, href, **kwargs):
-        super(LinkCollection, self).add(rel, href, 'GET', **kwargs)
+        return super(LinkCollection, self).add(rel, href, 'GET', **kwargs)
 
 class LinkItem(TransitionItem):
     pass
@@ -165,7 +165,7 @@ class QueryCollection(TransitionCollectionWrapper):
         self.resource = resource
 
     def add(self, rel, href, **kwargs):
-        super(QueryCollection, self).add(rel, href, 'GET', **kwargs)
+        return super(QueryCollection, self).add(rel, href, 'GET', **kwargs)
 
 class QueryItem(TransitionItem):
 

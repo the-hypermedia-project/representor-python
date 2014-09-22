@@ -4,11 +4,12 @@ from .dom import ItemCollection
 class InputCollection(ItemCollection):
 
     def __init__(self):
+        super(InputCollection, self).__init__()
         self.item = InputItem
 
 class InputItem(AttributeItem):
 
-    def __init__(self, name, value, **kwargs):
+    def __init__(self, name, value=None, **kwargs):
         super(InputItem, self).__init__(name, value=None, **kwargs)
         self._current_value = value
         self.placeholder = kwargs.get("placeholder", None)
@@ -22,7 +23,7 @@ class OptionCollection(ItemCollection):
 
     def __init__(self):
         super(OptionCollection, self).__init__()
-        self.item = OptionItem()
+        self.item = OptionItem
 
 class OptionItem(object):
 

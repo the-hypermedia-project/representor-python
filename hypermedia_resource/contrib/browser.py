@@ -3,7 +3,73 @@ try:
 except:
     pass
 
-resource_template = """<!doctype html>
+class BrowserAdapter(object):
+
+    media_type = "text/html"
+
+    @classmethod
+    def build(self, resource):
+        template = Template(resource_template)
+        return template.render(resource=resource)
+
+resource_template = """
+{% macro resource_markup(resource) %}
+    {% if resource.meta.attributes.has("title") %}
+        <h1>{{ resource.meta.attributes.get("title").value }}</h1>
+    {% else %}
+        <h1>Hypermedia Browser</h1>
+    {% endif %}
+
+    {% if resource.attributes.all() %}
+        <h2>Attributes</h2>
+        <dl class="dl-horizontal attributes">
+            {% for attr in resource.attributes.all() %}
+                {% if attr.label %}
+                    <dt>{{ attr.label }}</dt>
+                {% else %}
+                    <dt>{{ attr.name }}</dt>
+                {% endif %}
+                <dd>{{ attr.value }}</dd>
+            {% endfor %}
+        </dl>
+    {% endif %}
+
+    {% if resource.links.all() %}
+        <h2>Links</h2>
+        <ul class="links">
+            {% for link in resource.links.all() %}
+                <li>
+                {% if link.label %}
+                    <a href="{{ link.href }}" rel="{{ link.rel }}">{{ link.label }}</a>
+                {% else %}
+                    <a href="{{ link.href }}" rel="{{ link.rel }}">{{ link.rel }}</a>
+                {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if resource.queries.all() %}
+        <h2>Queries</h2>
+        {% for query in resource.queries.all() %}
+            {{ form("GET", query.href, query.params.all()) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro form(method, action, params) %}
+    <form method="{{ method }}" action="{{ action }}">
+        {% for param in params %}
+            {% if param.value %}
+                <input type="text" name="{{ param.name }}" value="{{ param.value }}" />
+            {% else %}
+                <input type="text" name="{{ param.name }}" />
+            {% endif %}
+        {% endfor %}
+    </form>
+{% endmacro %}
+
+<!doctype html>
 <html>
     <head>
         {% if resource.meta.attributes.has("title") %}
@@ -15,33 +81,8 @@ resource_template = """<!doctype html>
     </head>
     <body>
         <div class="container-fluid">
-            {% if resource.meta.attributes.has("title") %}
-                <h1>{{ resource.meta.attributes.get("title").value }}</h1>
-            {% else %}
-                <h1>Hypermedia Browser</h1>
-            {% endif %}
-            <h2>Links</h2>
-            <ul class="links">
-                {% for link in resource.links.all() %}
-                    <li>
-                    {% if link.label %}
-                        <a href="{{ link.href }}" rel="{{ link.rel }}">{{ link.label }}</a>
-                    {% else %}
-                        <a href="{{ link.href }}" rel="{{ link.rel }}">{{ link.rel }}</a>
-                    {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
+            {{ resource_markup(resource) }}
         </div>
     </body>
 </html>
 """
-
-class BrowserAdapter(object):
-
-    media_type = "text/html"
-
-    @classmethod
-    def build(self, resource):
-        template = Template(resource_template)
-        return template.render(resource=resource)
