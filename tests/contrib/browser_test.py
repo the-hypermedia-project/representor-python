@@ -77,3 +77,10 @@ class BrowserTest(unittest.TestCase):
         html = self.resource.translate_to("text/html")
         self.assertTrue('name="_method" value="PUT"' in html)
 
+    def test_embedded(self):
+        embedded = self.resource.embedded_resources.add("item", "/embed")
+        embedded.attributes.add("name", "John Doe")
+        embedded.links.add("self", "/example", label="Test Link!")
+        html = self.resource.translate_to("text/html")
+        self.assertTrue('<dd>John Doe</dd>' in html)
+        self.assertTrue('rel="self"' in html)

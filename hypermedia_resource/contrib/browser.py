@@ -10,17 +10,27 @@ class BrowserAdapter(object):
     @classmethod
     def build(self, resource):
         template = Template(resource_template)
-        return template.render(resource=resource)
+        return template.render(main_resource=resource)
 
 resource_template = """
-{% macro resource_markup(resource) %}
-    <div class="page-header">
-        {% if resource.meta.attributes.has("title") %}
-            <h1>{{ resource.meta.attributes.get("title").value }}</h1>
-        {% else %}
-            <h1>Hypermedia Browser</h1>
-        {% endif %}
-    </div>
+{% macro resource_markup(resource, embedded=False) %}
+    {% if embedded %}
+        <div class="page-header">
+            {% if resource.meta.attributes.has("title") %}
+                <h1>{{ resource.meta.attributes.get("title").value }}</h1>
+            {% else %}
+                <h1>Embedded: {{ resource.rel }}</h1>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="page-header">
+            {% if resource.meta.attributes.has("title") %}
+                <h1>{{ resource.meta.attributes.get("title").value }}</h1>
+            {% else %}
+                <h1>Hypermedia Browser</h1>
+            {% endif %}
+        </div>
+    {% endif %}
 
     {% if resource.attributes.all() %}
         <div class="page-header">
@@ -76,6 +86,14 @@ resource_template = """
             {{ form(action.method, action.href, action.attributes.all()) }}
         {% endfor %}
     {% endif %}
+
+    {% if resource.embedded_resources.all() %}
+        {% for embedded_resource in resource.embedded_resources.all() %}
+            <div class="embedded">
+                {{ resource_markup(embedded_resource, True) }}
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endmacro %}
 
 {% macro form(method, action, params) %}
@@ -116,8 +134,8 @@ resource_template = """
 <!doctype html>
 <html>
     <head>
-        {% if resource.meta.attributes.has("title") %}
-            <title>{{ resource.meta.attributes.get("title").value }}</title>
+        {% if main_resource.meta.attributes.has("title") %}
+            <title>{{ main_resource.meta.attributes.get("title").value }}</title>
         {% else %}
             <title>Hypermedia Browser</title>
         {% endif %}
@@ -125,11 +143,15 @@ resource_template = """
         <style>
         body { margin-bottom: 40px; }
         .main { max-width: 800px; }
+        .embedded {
+            padding-left: 15px;
+            border-left: 2px solid #2980B9;
+        }
         </style>
     </head>
     <body>
         <div class="container-fluid main">
-            {{ resource_markup(resource) }}
+            {{ resource_markup(main_resource) }}
         </div>
     </body>
 </html>
