@@ -52,7 +52,28 @@ class BrowserTest(unittest.TestCase):
         query.params.add("another", "value-given")
         html = self.resource.translate_to("text/html")
         self.assertTrue('<form method="GET" action="/search"' in html)
-        self.assertTrue('<input type="text" name="search_key"' in html)
-        self.assertTrue('<input type="text" name="another" value="value-given"' in html)
+        self.assertTrue('name="search_key"' in html)
+        self.assertTrue('name="another" value="value-given"' in html)
 
+    def test_options(self):
+        query = self.resource.queries.add("search", "/search")
+        param = query.params.add("search_key", "red")
+        param.options.add("Bar", "bar")
+        param.options.add("Red", "red")
+        html = self.resource.translate_to("text/html")
+        self.assertTrue('<select name="search_key"' in html)
+        self.assertTrue('value="bar">Bar' in html)
+        self.assertTrue('selected="selected" value="red">Red' in html)
+
+    def test_actions_override(self):
+        action = self.resource.actions.add("create", "/users", "POST", label="Create User")
+        attribute = action.attributes.add("username")
+        html = self.resource.translate_to("text/html")
+        self.assertTrue('name="_method" value="PUT"' in html)
+
+    def test_actions_override(self):
+        action = self.resource.actions.add("update", "/users", "PUT", label="Update User")
+        attribute = action.attributes.add("username", "johndoe")
+        html = self.resource.translate_to("text/html")
+        self.assertTrue('name="_method" value="PUT"' in html)
 
