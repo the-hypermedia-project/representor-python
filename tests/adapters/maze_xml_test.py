@@ -3,7 +3,7 @@ import unittest
 import json
 
 from hypermedia_resource import HypermediaResource
-from hypermedia_resource.adapters.maze_xml import MazeXMLAdapter
+from hypermedia_resource.contrib.maze_xml import MazeXMLAdapter
 
 cell_xml = """<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <maze version="1.0">
