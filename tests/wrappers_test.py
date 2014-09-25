@@ -11,10 +11,10 @@ def adapter():
     adapter.build.return_value = "built"
     return adapter
 
-def request(method='GET', data={}):
+def request(method='GET', form={}):
     request = Mock()
     request.method = method
-    request.data = data
+    request.form = form
     request.headers = Mock()
     request.headers.get = Mock()
     request.headers.get.return_value = "application/hal+json"
@@ -96,7 +96,7 @@ class TestFlaskAPIResource(unittest.TestCase):
         self.resource.build_response = Mock()
         self.resource.build_response.return_value = response
 
-        self.resource.response_for(request())
+        self.resource.response_for(request('GET', {}))
         self.resource.build_response.assert_called_with(resource, "application/hal+json")
         mock_method.assert_called_with(response.body, mimetype=response.media_type)
 

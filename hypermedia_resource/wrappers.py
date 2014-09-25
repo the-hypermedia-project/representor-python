@@ -58,6 +58,10 @@ class APIResource(object):
 
 class FlaskAPIResource(APIResource):
 
+    def flask_response(self, resource, request, *args, **kwargs):
+        response = self.build_response(resource, request.headers.get('Accept'))
+        return Response(response.body, mimetype=response.media_type, *args, **kwargs)
+
     def get_method(self, request):
         if request.method != "POST":
             return request.method
@@ -70,6 +74,4 @@ class FlaskAPIResource(APIResource):
         method = self.get_method(request)
         action_name = self.actions()[method]
         action = getattr(self, action_name)
-        resource = action(request)
-        response = self.build_response(resource, request.headers.get('Accept'))
-        return Response(response.body, mimetype=response.media_type)
+        return action(request)

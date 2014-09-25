@@ -55,9 +55,8 @@ class BaseTransitionItem(object):
     def __init__(self, rel, method='GET', **kwargs):
         self.rel = rel
         self.method = method
-        self.hreflang = kwargs.get('embed_as', None)
+        self.hreflang = kwargs.get('hreflang', None)
         self.embed_as = kwargs.get('embed_as', None)
-        self.language = kwargs.get('language', None)
         self.response_types = MediaTypeCollection()
         self.label = kwargs.get('label', None)
 
