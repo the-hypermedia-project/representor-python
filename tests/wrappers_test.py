@@ -79,6 +79,7 @@ class TestFlaskAPIResource(unittest.TestCase):
         method = self.resource.get_method(request("POST", { "_method": "PUT"}))
         self.assertEqual(method, "PUT")
 
+    @unittest.skip
     @patch('hypermedia_resource.wrappers.Response')
     def test_response_for(self, mock_method):
         resource = HypermediaResource()
