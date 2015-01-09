@@ -1,9 +1,9 @@
 Hypermedia Resource - Python
 ----------------------------
 
-[![Build Status](http://img.shields.io/travis/the-hypermedia-project/hypermedia-resource-python/master.svg?style=flat)](https://travis-ci.org/the-hypermedia-project/hypermedia-resource-python)
+[![Build Status](http://img.shields.io/travis/the-hypermedia-project/representor-python/master.svg?style=flat)](https://travis-ci.org/the-hypermedia-project/representor-python)
 
-This library provides a generic interface for hypermedia messages. It is currently in active development and is not recommended for production use. 
+This library provides a generic interface for hypermedia messages. It is currently in active development and is not recommended for production use.
 
 ## Installing
 
