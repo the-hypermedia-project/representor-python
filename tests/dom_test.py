@@ -1,5 +1,5 @@
 import unittest
-from hypermedia_resource.dom import Collection, Item, ItemCollection
+from representor.dom import Collection, Item, ItemCollection
 
 class TestItem(unittest.TestCase):
 

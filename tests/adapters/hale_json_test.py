@@ -3,8 +3,8 @@ import unittest
 import json
 import logging
 
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.adapters.hale_json import HaleJSONAdapter
+from representor import HypermediaResource
+from representor.adapters.hale_json import HaleJSONAdapter
 
 hale_example = """{
     "_meta": {

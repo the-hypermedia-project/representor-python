@@ -1,8 +1,8 @@
 import unittest
 from mock import Mock, patch
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.wrappers import HypermediaResponse, ResponseBuilder
-from hypermedia_resource.wrappers import APIResource, FlaskAPIResource
+from representor import HypermediaResource
+from representor.wrappers import HypermediaResponse, ResponseBuilder
+from representor.wrappers import APIResource, FlaskAPIResource
 
 def adapter():
     adapter = Mock()
@@ -80,7 +80,7 @@ class TestFlaskAPIResource(unittest.TestCase):
         self.assertEqual(method, "PUT")
 
     @unittest.skip
-    @patch('hypermedia_resource.wrappers.Response')
+    @patch('representor.wrappers.Response')
     def test_response_for(self, mock_method):
         resource = HypermediaResource()
 

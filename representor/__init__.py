@@ -1,4 +1,4 @@
-__title__ = 'hypermedia_resource'
+__title__ = 'representor'
 __version__ = '0.1.11'
 __author__ = 'Stephen Mizell'
 __license__ = 'MIT'

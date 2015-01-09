@@ -16,7 +16,7 @@ python setup.py install
 ### HypermediaResource
 
 ```python
-from hypermedia_resource import HypermediaResource
+from representor import HypermediaResource
 
 resource = HypermediaResource()
 
@@ -57,8 +57,8 @@ new_resource =HypermediaResource.translate_from("application/hal+json", hal_json
 ### Adding Adapters
 
 ```python
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.contrib.browser import BrowserAdapter
+from representor import HypermediaResource
+from representor.contrib.browser import BrowserAdapter
 
 # Add the adapter
 HypermediaResource.adapters.add(BrowserAdapter)
@@ -75,7 +75,7 @@ This is an adapter that can be used to build HTML representations of a resource.
 To use:
 
 ```python
-from hypermedia_resource.contrib.browser import BrowserAdapter
+from representor.contrib.browser import BrowserAdapter
 HypermediaResource.adapters.add(BrowserAdapter)
 ```
 
@@ -84,8 +84,8 @@ HypermediaResource.adapters.add(BrowserAdapter)
 A Hypermedia Response can be used to automatically generate a representation based on what the client accepts. It uses content negotiation to decide the type based on what adapters have been added to the `HypermediaResource` adapters, either by default or manually.
 
 ```python
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.wrappers import HypermediaResponse, ResponseBuilder
+from representor import HypermediaResource
+from representor.wrappers import HypermediaResponse, ResponseBuilder
 
 # The resource
 resource = HypermediaResource()

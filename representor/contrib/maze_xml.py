@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from hypermedia_resource.base import HypermediaResource
+from representor.base import HypermediaResource
 
 class MazeXMLAdapter:
 

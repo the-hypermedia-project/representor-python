@@ -1,8 +1,8 @@
 import unittest
 import json
 
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.adapters.hal_json import HalJSONAdapter
+from representor import HypermediaResource
+from representor.adapters.hal_json import HalJSONAdapter
 
 hal_example = """{
     "_links": {

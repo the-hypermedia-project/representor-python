@@ -1,7 +1,7 @@
 import unittest
 
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.contrib.browser import BrowserAdapter
+from representor import HypermediaResource
+from representor.contrib.browser import BrowserAdapter
 
 class BrowserTest(unittest.TestCase):
 

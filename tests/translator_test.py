@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock
-from hypermedia_resource.translator import Translator
+from representor.translator import Translator
 
 def adapter():
     adapter = Mock()

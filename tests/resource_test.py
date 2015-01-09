@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock
-from hypermedia_resource import HypermediaResource
+from representor import HypermediaResource
 
 def adapter():
     adapter = Mock()
