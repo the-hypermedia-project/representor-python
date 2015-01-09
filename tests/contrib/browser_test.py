@@ -1,16 +1,16 @@
 import unittest
 
-from representor import HypermediaResource
+from representor import Representor
 from representor.contrib.browser import BrowserAdapter
 
 class BrowserTest(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.adapters.add(BrowserAdapter)
-        self.resource = HypermediaResource()
+        Representor.adapters.add(BrowserAdapter)
+        self.resource = Representor()
 
     def tearDown(self):
-        HypermediaResource.reset_adapters()
+        Representor.reset_adapters()
 
     def test_links(self):
         self.resource.links.add("self", "/example")

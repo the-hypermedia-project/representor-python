@@ -1,5 +1,5 @@
 from negotiator import ContentNegotiator, AcceptParameters, ContentType
-from .resource import HypermediaResource
+from .resource import Representor
 
 try:
     from flask import Response
@@ -18,7 +18,7 @@ class ResponseBuilder(object):
         self.default_type = default_type
 
     def build(self, resource, accept):
-        adapters = HypermediaResource.adapters.all()
+        adapters = Representor.adapters.all()
         acceptable = [AcceptParameters(ContentType(adapter.media_type)) for adapter in adapters]
         cn = ContentNegotiator(AcceptParameters(ContentType(self.default_type)), acceptable)
         negotiate = cn.negotiate(accept=accept)

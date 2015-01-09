@@ -1,4 +1,4 @@
-from .base import HypermediaResource
+from .base import Representor
 from .adapters.hal_json import HalJSONAdapter
 
-HypermediaResource.adapters.add(HalJSONAdapter)
+Representor.adapters.add(HalJSONAdapter)
