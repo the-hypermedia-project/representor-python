@@ -3,4 +3,4 @@ __version__ = '0.1.11'
 __author__ = 'Stephen Mizell'
 __license__ = 'MIT'
 
-from resource import HypermediaResource
+from .resource import HypermediaResource
