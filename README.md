@@ -1,5 +1,5 @@
-Hypermedia Representor - Python
--------------------------------
+Representor - Python
+--------------------
 
 [![Build Status](http://img.shields.io/travis/the-hypermedia-project/representor-python/master.svg?style=flat)](https://travis-ci.org/the-hypermedia-project/representor-python)
 
