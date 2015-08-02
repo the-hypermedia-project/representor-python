@@ -79,25 +79,22 @@ class TestFlaskAPIResource(unittest.TestCase):
         method = self.resource.get_method(request("POST", { "_method": "PUT"}))
         self.assertEqual(method, "PUT")
 
-    @unittest.skip
-    @patch('representor.wrappers.Response')
-    def test_response_for(self, mock_method):
+    def test_response_for(self):
         resource = Representor()
 
-        # Response
-        response = Mock()
-        response.body = "body"
-        response.media_type = "media_type"
+        # Mock HypermediaResponse so we don't have to translate a resource
+        hypermedia_response = Mock()
+        hypermedia_response.media_type = "application/hal+json"
+        hypermedia_response.body = "{ \"foo\": \"bar\" }"
 
-        # Read action
+        # Mock build response to return the mocked hypermedia_response
+        self.resource.build_response = Mock()
+        self.resource.build_response.return_value = hypermedia_response
+
+        # Mock read action on a Flask API resource
         self.resource.read = Mock()
         self.resource.read.return_value = resource
 
-        # Mock build response
-        self.resource.build_response = Mock()
-        self.resource.build_response.return_value = response
-
-        self.resource.response_for(request('GET', {}))
-        self.resource.build_response.assert_called_with(resource, "application/hal+json")
-        mock_method.assert_called_with(response.body, mimetype=response.media_type)
-
+        response = self.resource.response_for(request('GET', {}))
+        self.assertEqual(response.mimetype, "application/hal+json")
+        self.assertEqual(response.data, "{ \"foo\": \"bar\" }")

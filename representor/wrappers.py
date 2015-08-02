@@ -74,4 +74,6 @@ class FlaskAPIResource(APIResource):
         method = self.get_method(request)
         action_name = self.actions()[method]
         action = getattr(self, action_name)
-        return action(request)
+        resource = action(request)
+        response = self.build_response(resource, request.headers.get('Accept'))
+        return Response(response.body, mimetype=response.media_type)
