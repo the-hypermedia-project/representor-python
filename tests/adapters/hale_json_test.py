@@ -3,8 +3,8 @@ import unittest
 import json
 import logging
 
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.adapters.hale_json import HaleJSONAdapter
+from representor import Representor
+from representor.adapters.hale_json import HaleJSONAdapter
 
 hale_example = """{
     "_meta": {
@@ -110,12 +110,12 @@ hale_example = """{
 class TestParse(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.adapters.add(HaleJSONAdapter)
-        self.resource = HypermediaResource.adapters.translate_from("application/vnd.hale+json",
+        Representor.adapters.add(HaleJSONAdapter)
+        self.resource = Representor.adapters.translate_from("application/vnd.hale+json",
                                                                    hale_example)
 
     def tearDown(self):
-        HypermediaResource.reset_adapters()
+        Representor.reset_adapters()
 
     def test_attributes(self):
         attr = self.resource.attributes.get("attribute")

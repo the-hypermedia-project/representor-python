@@ -1,11 +1,9 @@
-Hypermedia Resource - Python
-----------------------------
+Representor - Python
+--------------------
 
 [![Build Status](http://img.shields.io/travis/the-hypermedia-project/representor-python/master.svg?style=flat)](https://travis-ci.org/the-hypermedia-project/representor-python)
 
 This library provides a generic interface for hypermedia messages. It is currently in active development and is not recommended for production use.
-
-**Note**: This is being deprecated so it can be renamed to `representor`.
 
 ## Installing
 
@@ -15,40 +13,40 @@ python setup.py install
 
 ## Usage
 
-### HypermediaResource
+### Representor
 
 ```python
-from hypermedia_resource import HypermediaResource
+from representor import Representor
 
-resource = HypermediaResource()
+representor = Representor()
 
-# Adding resource attributes
-resource.attributes.add("name", "John Doe")
-resource.attributes.add("email", "john@example.com")
+# Adding representor attributes
+representor.attributes.add("name", "John Doe")
+representor.attributes.add("email", "john@example.com")
 
 # Retreiving attributes
-name_attr = resource.attributes.get("name")
+name_attr = representor.attributes.get("name")
 name_attr.value
 
 # Adding links
-resource.links.add("self", "/customers/1")
-resource.links.add("orders", "/customers/1/orders")
+representor.links.add("self", "/customers/1")
+representor.links.add("orders", "/customers/1/orders")
 
 # Adding meta data
-resource.meta.attributes.add("title", "Customer Details")
-resource.meta.links.add("profile", "http://example.com/customer_profile")
+representor.meta.attributes.add("title", "Customer Details")
+representor.meta.links.add("profile", "http://example.com/customer_profile")
 
 # Finding links and transitions
-has_self = resource.transitions.has_rel("self") # True
-self_link = resource.transitions.get("self")
-profile_link = resource.meta.links.get("profile")
+has_self = representor.transitions.has_rel("self") # True
+self_link = representor.transitions.get("self")
+profile_link = representor.meta.links.get("profile")
 
 # Translate to media types
-hal = resource.translate_to("application/hal+json")
+hal = representor.translate_to("application/hal+json")
 
 # Translate from media types
 hal_json = '{ "_links": { "self": { "href": "/example" }}}'
-new_resource =HypermediaResource.translate_from("application/hal+json", hal_json)
+new_representor = Representor.translate_from("application/hal+json", hal_json)
 ```
 
 #### Supported Media Types
@@ -59,11 +57,11 @@ new_resource =HypermediaResource.translate_from("application/hal+json", hal_json
 ### Adding Adapters
 
 ```python
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.contrib.browser import BrowserAdapter
+from representor import Representor
+from representor.contrib.browser import BrowserAdapter
 
 # Add the adapter
-HypermediaResource.adapters.add(BrowserAdapter)
+Representor.adapters.add(BrowserAdapter)
 ```
 
 #### Contrib Adapters
@@ -77,28 +75,28 @@ This is an adapter that can be used to build HTML representations of a resource.
 To use:
 
 ```python
-from hypermedia_resource.contrib.browser import BrowserAdapter
-HypermediaResource.adapters.add(BrowserAdapter)
+from representor.contrib.browser import BrowserAdapter
+Representor.adapters.add(BrowserAdapter)
 ```
 
 ### HypermediaResponse
 
-A Hypermedia Response can be used to automatically generate a representation based on what the client accepts. It uses content negotiation to decide the type based on what adapters have been added to the `HypermediaResource` adapters, either by default or manually.
+A Hypermedia Response can be used to automatically generate a representation based on what the client accepts. It uses content negotiation to decide the type based on what adapters have been added to the `Representor` adapters, either by default or manually.
 
 ```python
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.wrappers import HypermediaResponse, ResponseBuilder
+from representor import Representor
+from representor.wrappers import HypermediaResponse, ResponseBuilder
 
 # The resource
-resource = HypermediaResource()
-resource.links.add("self", "/example")
+representor = Representor()
+representor.links.add("self", "/example")
 
 # What the client accepts, which is used for content negotiation
 accepts = "application/hal+json"
 
 # New builder with default type
 response_builder = ResponseBuilder("application/hal+json")
-response = response_builder.build(resource, accepts)
+response = response_builder.build(representor, accepts)
 
 # Fields for response
 response.media_type # The media type of the response

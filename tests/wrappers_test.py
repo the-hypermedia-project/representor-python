@@ -1,8 +1,8 @@
 import unittest
 from mock import Mock, patch
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.wrappers import HypermediaResponse, ResponseBuilder
-from hypermedia_resource.wrappers import APIResource, FlaskAPIResource
+from representor import Representor
+from representor.wrappers import HypermediaResponse, ResponseBuilder
+from representor.wrappers import APIResource, FlaskAPIResource
 
 def adapter():
     adapter = Mock()
@@ -23,7 +23,7 @@ def request(method='GET', form={}):
 class TestHypermediaResponse(unittest.TestCase):
 
     def test(self):
-        resource = HypermediaResource()
+        resource = Representor()
         resource.adapters.add(adapter())
         response = HypermediaResponse("application/hal+json", resource)
         self.assertEqual(response.media_type, "application/hal+json")
@@ -32,7 +32,7 @@ class TestHypermediaResponse(unittest.TestCase):
 class TestResponseBuilder(unittest.TestCase):
 
     def test(self):
-        resource = HypermediaResource()
+        resource = Representor()
         resource.adapters.add(adapter())
         accept = "application/hal+json"
         response_builder = ResponseBuilder("application/hal+json")
@@ -43,7 +43,7 @@ class TestResponseBuilder(unittest.TestCase):
 class TestAPIResource(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.adapters.add(adapter())
+        Representor.adapters.add(adapter())
         self.resource = APIResource()
 
     def test_available_actions(self):
@@ -59,7 +59,7 @@ class TestAPIResource(unittest.TestCase):
         self.assertFalse('POST' in methods)
 
     def test_response(self):
-        resource = HypermediaResource()
+        resource = Representor()
         self.resource.read = Mock()
         self.resource.read.return_value = resource
         accepts = "application/hal+json"
@@ -80,9 +80,9 @@ class TestFlaskAPIResource(unittest.TestCase):
         self.assertEqual(method, "PUT")
 
     @unittest.skip
-    @patch('hypermedia_resource.wrappers.Response')
+    @patch('representor.wrappers.Response')
     def test_response_for(self, mock_method):
-        resource = HypermediaResource()
+        resource = Representor()
 
         # Response
         response = Mock()

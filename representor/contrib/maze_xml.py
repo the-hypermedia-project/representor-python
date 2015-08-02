@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from hypermedia_resource.base import HypermediaResource
+from representor.base import Representor
 
 class MazeXMLAdapter:
 
@@ -7,7 +7,7 @@ class MazeXMLAdapter:
 
     @classmethod
     def parse(self, raw_xml):
-        resource = HypermediaResource()
+        resource = Representor()
         root = ET.fromstring(raw_xml)
         for link in root[0].findall("link"):
             resource.links.add(link.get("rel"), link.get("href"))

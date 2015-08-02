@@ -1,5 +1,5 @@
 import json
-from hypermedia_resource.base import HypermediaResource
+from representor.base import Representor
 
 RESERVED_ATTRIBUTES = ["_links", "_embedded"]
 
@@ -62,7 +62,7 @@ class HaleJSONAdapter(object):
     @classmethod
     def parse(self, raw_json):
         hal_rep = json.loads(raw_json)
-        resource = HypermediaResource()
+        resource = Representor()
         parse_attributes(hal_rep, resource)
         parse_links(hal_rep, resource)
         parse_embeddeds(hal_rep, resource)

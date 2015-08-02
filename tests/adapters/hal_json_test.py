@@ -1,8 +1,8 @@
 import unittest
 import json
 
-from hypermedia_resource import HypermediaResource
-from hypermedia_resource.adapters.hal_json import HalJSONAdapter
+from representor import Representor
+from representor.adapters.hal_json import HalJSONAdapter
 
 hal_example = """{
     "_links": {
@@ -55,11 +55,11 @@ class TestClass(unittest.TestCase):
 class TestBuild(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.adapters.add(HalJSONAdapter)
-        self.resource = HypermediaResource()
+        Representor.adapters.add(HalJSONAdapter)
+        self.resource = Representor()
 
     def tearDown(self):
-        HypermediaResource.reset_adapters()
+        Representor.reset_adapters()
 
     def test_properties(self):
         self.resource.attributes.add("foo", "bar")
@@ -99,12 +99,12 @@ class TestBuild(unittest.TestCase):
 class TestParse(unittest.TestCase):
 
     def setUp(self):
-        HypermediaResource.adapters.add(HalJSONAdapter)
-        self.resource = HypermediaResource.adapters.translate_from("application/hal+json",
+        Representor.adapters.add(HalJSONAdapter)
+        self.resource = Representor.adapters.translate_from("application/hal+json",
                                                                    hal_example)
 
     def tearDown(self):
-        HypermediaResource.reset_adapters()
+        Representor.reset_adapters()
 
     def test_attributes(self):
         attr = self.resource.attributes.get("shippedToday")

@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock
-from hypermedia_resource import HypermediaResource
+from representor import Representor
 
 def adapter():
     adapter = Mock()
@@ -9,14 +9,14 @@ def adapter():
     adapter.build.return_value = "built"
     return adapter
 
-class TestHypermediaResource(unittest.TestCase):
+class TestRepresentor(unittest.TestCase):
 
     def setUp(self):
         self.adapter = adapter()
-        self.resource = HypermediaResource()
+        self.resource = Representor()
 
     def tearDown(self):
-        HypermediaResource.reset_adapters()
+        Representor.reset_adapters()
 
     def test_translate_to(self):
         self.resource.adapters.add(self.adapter)
@@ -26,7 +26,7 @@ class TestHypermediaResource(unittest.TestCase):
 
     def test_translate_from(self):
         self.resource.adapters.add(self.adapter)
-        resource = HypermediaResource.translate_from("application/hal+json",
+        resource = Representor.translate_from("application/hal+json",
                                                      { "foo": "bar" })
         self.assertEqual(resource, "parsed")
         self.adapter.parse.assert_called_with({ "foo": "bar" })
@@ -80,7 +80,7 @@ class TestHypermediaResource(unittest.TestCase):
 class TestTransitionCollection(unittest.TestCase):
 
     def setUp(self):
-        self.resource = HypermediaResource()
+        self.resource = Representor()
 
     def test_get_rels(self):
         self.resource.links.add("self", "/customers/1")

@@ -18,9 +18,9 @@ class TranslatorMixin(object):
 
     @classmethod
     def reset_adapters(self):
-        HypermediaResource.adapters = Translator()
+        Representor.adapters = Translator()
 
-class HypermediaResource(TranslatorMixin):
+class Representor(TranslatorMixin):
 
     def __init__(self, *args, **kwargs):
         self.href = kwargs.get('href', None)
@@ -86,10 +86,10 @@ class BaseTransitionItem(object):
             return True
         return False
 
-class TransitionItem(BaseTransitionItem, HypermediaResource):
+class TransitionItem(BaseTransitionItem, Representor):
 
     def __init__(self, rel, href, method='GET', **kwargs):
-        HypermediaResource.__init__(self, href=href, **kwargs)
+        Representor.__init__(self, href=href, **kwargs)
         BaseTransitionItem.__init__(self, rel, method, **kwargs)
 
 class TransitionCollectionWrapper(ItemCollection):
