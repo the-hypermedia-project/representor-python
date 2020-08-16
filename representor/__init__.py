@@ -3,4 +3,4 @@ __version__ = '0.3.1'
 __author__ = 'Stephen Mizell'
 __license__ = 'MIT'
 
-from resource import Representor
+from representor.resource import Representor

@@ -12,17 +12,17 @@ def parse_attributes(hal_rep, resource):
 def parse_link(rel, link, resource):
     if "templated" in link and link["templated"]:
         return
-    if (link.has_key("method") and link["method"] != "GET"):
+    if link.get("method", "GET") != "GET":
         resource = resource.actions.add(rel, link["href"], link["method"])
     else:
         resource = resource.links.add(rel=rel, href=link["href"])
-    if link.has_key("request_encoding"):
+    if "request_encoding" in link:
         resource.response_types.add(link["request_encoding"])
-    if link.has_key("data"):
+    if "data" in link:
         # Right now, it only supports name and values
         for name, value in link["data"].items():
             attr = resource.attributes.add(name)
-            if value.has_key("options"):
+            if 'options' in value:
                 for option in value["options"]:
                     attr.options.add(option, option)
     return resource
